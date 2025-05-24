@@ -141,6 +141,7 @@ jobs:
         echo 'OPENSSL_DIR=C:\Program Files\OpenSSL' | Out-File -FilePath $env:GITHUB_ENV -Append
         echo 'OPENSSL_LIB_DIR=C:\Program Files\OpenSSL\lib\VC\x64\MD' | Out-File -FilePath $env:GITHUB_ENV -Append
         choco install protoc --no-progress
+        refreshenv
       
     - name: Setup Rust toolchain
       run: |
