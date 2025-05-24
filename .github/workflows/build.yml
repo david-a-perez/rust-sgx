@@ -137,7 +137,8 @@ jobs:
     - name: Install additional dependencies
       run: |
         # Install OpenSSL
-        choco install openssl
+        choco install openssl --no-progress
+        echo 'OPENSSL_DIR=C:\Program Files\OpenSSL' >> $GITHUB_ENV
       
     - name: Setup Rust toolchain
       run: |
