@@ -3,6 +3,7 @@ use std::io::{Error as IoError, ErrorKind, Result as IoResult};
 use std::sync::Arc;
 use std::{mem, ptr};
 
+use thiserror::Error as ThisError;
 use winapi::ctypes::c_void;
 use winapi::um::enclaveapi::{
     CreateEnclave, InitializeEnclave, IsEnclaveTypeSupported, LoadEnclaveData,
@@ -28,24 +29,24 @@ use crate::{MappingInfo, Tcs};
 const ERROR_ENCLAVE_FAILURE: winapi::shared::minwindef::DWORD = 349;
 
 
-#[derive(Fail, Debug)]
+#[derive(ThisError, Debug)]
 pub enum EnclaveApiError {
-    #[fail(display = "Enclave API failed.")]
-    Io(#[cause] IoError),
-    #[fail(display = "The SGX instruction returned an error: {:?}.", _0)]
+    #[error("Enclave API failed.")]
+    Io(#[source] IoError),
+    #[error("The SGX instruction returned an error: {:?}.", _0)]
     Ret(ErrorCode),
 }
 
-#[derive(Fail, Debug)]
+#[derive(ThisError, Debug)]
 pub enum Error {
-    #[fail(display = "Failed to map enclave into memory.")]
-    Map(#[cause] IoError),
-    #[fail(display = "Failed to call CreateEnclave.")]
-    Create(#[cause] IoError),
-    #[fail(display = "Failed to call LoadEnclaveData.")]
-    Add(#[cause] IoError),
-    #[fail(display = "Failed to call InitializeEnclave.")]
-    Init(#[cause] EnclaveApiError),
+    #[error("Failed to map enclave into memory.")]
+    Map(#[source] IoError),
+    #[error("Failed to call CreateEnclave.")]
+    Create(#[source] IoError),
+    #[error("Failed to call LoadEnclaveData.")]
+    Add(#[source] IoError),
+    #[error("Failed to call InitializeEnclave.")]
+    Init(#[source] EnclaveApiError),
 }
 
 impl EinittokenError for Error {
@@ -260,7 +261,7 @@ impl loader::Load for Sgx {
         sigstruct: &Sigstruct,
         attributes: Attributes,
         miscselect: Miscselect,
-    ) -> ::std::result::Result<loader::Mapping<Self>, ::failure::Error> {
+    ) -> ::std::result::Result<loader::Mapping<Self>, ::anyhow::Error> {
         self.inner
             .load(reader, sigstruct, attributes, miscselect)
             .map(Into::into)
