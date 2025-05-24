@@ -842,6 +842,7 @@ impl EnclaveState {
             }
             Err(EnclaveAbort::Exit { panic: true }) => {
                 let panic = match handle_data {
+                    #[allow(unused_variables)]
                     UsercallHandleData::Sync(usercall, _, debug_buf) => {
                         let debug_buf = debug_buf.into_inner();
                         #[cfg(unix)] {
