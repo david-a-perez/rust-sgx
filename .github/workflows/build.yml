@@ -138,7 +138,8 @@ jobs:
       run: |
         # Install OpenSSL
         choco install openssl --no-progress
-        echo 'OPENSSL_DIR=C:\Program Files\OpenSSL' >> $GITHUB_ENV
+        echo 'OPENSSL_DIR=C:\Program Files\OpenSSL' | Out-File -FilePath
+          $env:GITHUB_ENV -Append
       
     - name: Setup Rust toolchain
       run: |
