@@ -52,7 +52,7 @@ jobs:
         rustup target add x86_64-fortanix-unknown-sgx --toolchain nightly
         rustup update
 
-    - name: Cargo test --all --exclude sgxs-loaders
+    - name: Cargo test --all --exclude sgxs-loaders --exclude async-usercalls --exclude dcap_artifact_retrieval
       run: cargo test --verbose --locked --all --exclude sgxs-loaders --exclude async-usercalls --exclude dcap_artifact_retrieval && [ "$(echo $(nm -D target/debug/sgx-detect|grep __vdso_sgx_enter_enclave))" = "w __vdso_sgx_enter_enclave" ]
 
     - name: cargo test -p async-usercalls --target x86_64-fortanix-unknown-sgx --no-run
