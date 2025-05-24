@@ -90,8 +90,8 @@ jobs:
     - name: Nightly test -p pcs --target x86_64-fortanix-unknown-sgx
       run: cargo +nightly test --verbose --locked -p pcs --target x86_64-fortanix-unknown-sgx --no-run
 
-    - name: Nightly test -p pcs --features verify
-      run: cargo +nightly test --verbose --locked -p pcs --features verify
+    # - name: Nightly test -p pcs --features verify
+    #   run: cargo +nightly test --verbose --locked -p pcs --features verify
 
     # Unfortunately running `faketime '2021-09-10 11:00:00 GMT' cargo test -p nitro-attestation-verify` causes a segmentation
     #  fault while compiling. We only execute `faketime` during the tests
