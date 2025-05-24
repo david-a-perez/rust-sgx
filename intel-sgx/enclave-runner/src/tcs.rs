@@ -43,6 +43,7 @@ impl<T: Tcs> Usercall<T> {
         coenter(self.tcs, 0, retval.0, retval.1, 0, 0, debug_buf)
     }
 
+    #[allow(dead_code)]
     pub fn tcs_address(&self) -> *mut c_void {
         self.tcs.address()
     }
