@@ -27,6 +27,7 @@ use crate::{MappingInfo, Tcs};
 // issue no:
 const ERROR_ENCLAVE_FAILURE: winapi::shared::minwindef::DWORD = 349;
 
+
 #[derive(Fail, Debug)]
 pub enum EnclaveApiError {
     #[fail(display = "Enclave API failed.")]
