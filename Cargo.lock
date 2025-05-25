@@ -774,7 +774,7 @@ dependencies = [
  "libc",
  "mbedtls",
  "num",
- "num-derive",
+ "num-derive 0.4.2",
  "num-traits",
  "report-test",
  "serde",
@@ -789,7 +789,7 @@ dependencies = [
 name = "dcap-ql-sys"
 version = "0.2.1"
 dependencies = [
- "num-derive",
+ "num-derive 0.4.2",
  "num-traits",
  "sgx-isa 0.4.1",
 ]
@@ -855,7 +855,7 @@ version = "0.1.0"
 source = "git+https://github.com/fortanix/aws-nitro-enclaves-cli.git?branch=main#a2bcf97f8d215ecb943cbce382de03a4112d92a5"
 dependencies = [
  "byteorder 1.3.4",
- "num-derive",
+ "num-derive 0.3.3",
  "num-traits",
  "serde",
  "serde_json",
@@ -2444,6 +2444,17 @@ dependencies = [
  "proc-macro2 1.0.78",
  "quote 1.0.35",
  "syn 1.0.81",
+]
+
+[[package]]
+name = "num-derive"
+version = "0.4.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ed3955f1a9c7c0c15e092f9c887db08b1fc683305fdf6eb6684f22555355e202"
+dependencies = [
+ "proc-macro2 1.0.78",
+ "quote 1.0.35",
+ "syn 2.0.50",
 ]
 
 [[package]]
