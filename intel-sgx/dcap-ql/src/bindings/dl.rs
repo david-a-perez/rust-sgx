@@ -12,7 +12,7 @@ struct DcapQl {
 }
 
 lazy_static! {
-    static ref DCAP_QL: Result<DcapQl, libloading::Error> = unsafe {
+    static ref DCAP_QL: Result<DcapQl, dl::Error> = unsafe {
         // Open globally so that `::enclave_loader` can find what it needs
         let library = Dl::open(Some(LIBRARY), RTLD_NOW | RTLD_GLOBAL)?;
         let get_target_info = *library.get::<GetTargetInfoFn>(SYM_GET_TARGET_INFO)?;
