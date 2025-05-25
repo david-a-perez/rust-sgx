@@ -774,7 +774,7 @@ dependencies = [
  "libc",
  "mbedtls",
  "num",
- "num-derive 0.2.5",
+ "num-derive",
  "num-traits",
  "report-test",
  "serde",
@@ -789,7 +789,7 @@ dependencies = [
 name = "dcap-ql-sys"
 version = "0.2.1"
 dependencies = [
- "num-derive 0.2.5",
+ "num-derive",
  "num-traits",
  "sgx-isa 0.4.1",
 ]
@@ -855,7 +855,7 @@ version = "0.1.0"
 source = "git+https://github.com/fortanix/aws-nitro-enclaves-cli.git?branch=main#a2bcf97f8d215ecb943cbce382de03a4112d92a5"
 dependencies = [
  "byteorder 1.3.4",
- "num-derive 0.3.3",
+ "num-derive",
  "num-traits",
  "serde",
  "serde_json",
@@ -1973,6 +1973,16 @@ dependencies = [
 
 [[package]]
 name = "libloading"
+version = "0.6.7"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "351a32417a12d5f7e82c368a66781e307834dae04c6ce0cd4456d52989229883"
+dependencies = [
+ "cfg-if 1.0.0",
+ "winapi",
+]
+
+[[package]]
+name = "libloading"
 version = "0.7.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "afe203d669ec979b7128619bae5a63b7b42e9203c1b29146079ee05e2f604b52"
@@ -2424,17 +2434,6 @@ name = "num-conv"
 version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "51d515d32fb182ee37cda2ccdcb92950d6a3c2893aa280e540671c2cd0f3b1d9"
-
-[[package]]
-name = "num-derive"
-version = "0.2.5"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "eafd0b45c5537c3ba526f79d3e75120036502bebacbb3f3220914067ce39dbf2"
-dependencies = [
- "proc-macro2 0.4.30",
- "quote 0.6.13",
- "syn 0.15.44",
-]
 
 [[package]]
 name = "num-derive"
@@ -3679,7 +3678,7 @@ dependencies = [
  "aesm-client",
  "anyhow",
  "bitflags 1.2.1",
- "libloading 0.5.2",
+ "libloading 0.6.7",
  "nix 0.15.0",
  "report-test",
  "sgx-isa 0.4.1",

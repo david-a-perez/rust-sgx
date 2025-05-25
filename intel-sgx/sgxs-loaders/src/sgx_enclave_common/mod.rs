@@ -7,7 +7,7 @@
 pub extern crate libloading as dl;
 
 use std::convert::TryFrom;
-use std::io::{Result as IoResult, Error as IoError};
+use std::io::Error as IoError;
 use std::os::raw::c_void;
 use std::sync::Arc;
 use std::{fmt, mem, ptr};
@@ -306,7 +306,7 @@ pub struct LibraryBuilder {
 }
 
 impl Library {
-    pub fn load(library: Option<dl::Library>) -> IoResult<LibraryBuilder> {
+    pub fn load(library: Option<dl::Library>) -> Result<LibraryBuilder, libloading::Error> {
         unsafe {
             let library = library.map_or_else(|| dl::Library::new(LIBRARY), Ok)?;
             let enclave_create = *library.get::<EnclaveCreateFn>(SYM_ENCLAVE_CREATE)?;
