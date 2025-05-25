@@ -60,8 +60,11 @@ use sgxs_loaders::isgx::Device as SgxDevice;
 #[cfg(windows)]
 use sgxs_loaders::enclaveapi::Sgx as SgxDevice;
 use sgxs_loaders::sgx_enclave_common::Library as EnclCommonLib;
+#[cfg(unix)]
 use proc_mounts::MountList;
-use anyhow::{bail, Error, format_err};
+use anyhow::{bail, Error};
+#[cfg(unix)]
+use anyhow::format_err;
 use thiserror::Error as ThisError;
 
 mod interpret;
@@ -262,6 +265,7 @@ impl SgxSupport {
                 dev = dev.einittoken_provider(aesm.clone());
             }
             let device = dev.build();
+            #[cfg(unix)]
             if let Ok(mount_list) = MountList::new() {
                 let mut path = device.path();
                 while let Some(p) = path.parent() {
