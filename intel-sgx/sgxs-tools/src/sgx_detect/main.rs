@@ -87,6 +87,7 @@ enum DetectError {
     #[error("CPUID leaf {:x}h is not valid", leaf)]
     CpuidLeafInvalid { leaf: u32 },
     #[error("Failed access EFI variables")]
+    #[cfg_attr(not(unix), allow(dead_code))]
     EfiFsError(#[source] io::Error),
     #[error("Failed to read EFI variable")]
     EfiVariableError(#[source] io::Error),
