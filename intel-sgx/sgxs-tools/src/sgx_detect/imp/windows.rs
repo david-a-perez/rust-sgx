@@ -1,4 +1,4 @@
-use failure::Error;
+use anyhow::{bail, Error};
 
 use crate::DetectError;
 use crate::interpret::{AesmStatus, KmodStatus};
