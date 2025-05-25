@@ -1,7 +1,7 @@
 use iron::prelude::*;
 use iron::{BeforeMiddleware, AfterMiddleware, typemap};
 use std::sync::atomic::{AtomicU32, Ordering};
-use time;
+use time::ext::InstantExt;
 
 static NUM_SUCCEEDING_CONNECTIONS: AtomicU32 = AtomicU32::new(0);
 
@@ -16,18 +16,18 @@ fn signal_success() {
 
 struct ResponseTime;
 
-impl typemap::Key for ResponseTime { type Value = time::Instant; }
+impl typemap::Key for ResponseTime { type Value = std::time::Instant; }
 
 impl BeforeMiddleware for ResponseTime {
     fn before(&self, req: &mut Request) -> IronResult<()> {
-        req.extensions.insert::<ResponseTime>(time::Instant::now());
+        req.extensions.insert::<ResponseTime>(std::time::Instant::now());
         Ok(())
     }
 }
 
 impl AfterMiddleware for ResponseTime {
     fn after(&self, req: &mut Request, res: Response) -> IronResult<Response> {
-        let delta = time::Instant::now() - *req.extensions.get::<ResponseTime>().unwrap();
+        let delta = std::time::Instant::now().signed_duration_since(*req.extensions.get::<ResponseTime>().unwrap());
         println!("# Request took: {} ns", delta.whole_nanoseconds());
         signal_success();
         Ok(res)
