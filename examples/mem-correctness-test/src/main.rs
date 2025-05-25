@@ -19,6 +19,7 @@
  * "Instructions on how to run the test:" )
  */
 
+ #[cfg(target_env = "sgx")]
 use core::arch::asm;
 use rand::Rng;
 use sha2::{Digest, Sha256};
@@ -38,8 +39,6 @@ extern "C" {
 
 const PAGE_SIZE: usize = 4096;
 const TO_KB: usize = 1024;
-const TO_MB: usize = TO_KB * 1024;
-const TO_GB: usize = TO_MB * 1024;
 const ALIGN: usize = PAGE_SIZE;
 
 const NUM_OPERATION_CHOICES: usize = 4;

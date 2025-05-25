@@ -5,12 +5,17 @@ extern crate libc;
 extern crate sgxs_loaders;
 
 use anyhow::Error;
+#[cfg(not(feature = "link"))]
 use anyhow::anyhow;
 use num_traits::FromPrimitive;
 
 pub use self::dcap_ql_sys::Quote3Error;
 use sgx_isa::{Report, Targetinfo};
+#[cfg(unix)]
 use self::sgxs_loaders::sgx_enclave_common::dl::os::unix::Library as Dl;
+#[cfg(windows)]
+use self::sgxs_loaders::sgx_enclave_common::dl::os::windows::Library as Dl;
+
 use self::sgxs_loaders::sgx_enclave_common::Library as EnclaveCommonLibrary;
 
 #[cfg(feature = "link")]
@@ -82,7 +87,14 @@ pub fn enclave_loader() -> Result<EnclaveCommonLibrary, Error> {
     // so we should be able to find it already loaded.
     // We can't use the library from `mod dl` if `not(feature = "link")`,
     // because that is not the right library.
-    let lib = EnclaveCommonLibrary::load(Some(Dl::this().into()))
+
+    #[cfg(unix)]
+    let this = Dl::this().into();
+
+    #[cfg(windows)]
+    let this = Dl::this()?.into();
+
+    let lib = EnclaveCommonLibrary::load(Some(this))
         .or(EnclaveCommonLibrary::load(None))?;
     Ok(lib.build())
 }

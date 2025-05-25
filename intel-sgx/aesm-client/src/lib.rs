@@ -39,6 +39,7 @@ extern crate sgx_isa;
 #[cfg(feature = "sgxs")]
 use std::result::Result as StdResult;
 
+#[cfg(any(unix, target_env = "sgx"))]
 use protobuf::ProtobufResult;
 #[cfg(feature = "sgxs")]
 use sgxs::einittoken::{Einittoken, EinittokenProvider};
@@ -47,6 +48,7 @@ use sgx_isa::{Attributes, Sigstruct};
 
 include!(concat!(env!("OUT_DIR"), "/mod_aesm_proto.rs"));
 mod error;
+#[cfg(any(unix, target_env = "sgx"))]
 use self::aesm_proto::*;
 pub use error::{AesmError, Error, Result};
 #[cfg(windows)]
@@ -75,6 +77,7 @@ pub mod sgx {
 }
 
 // From SDK aesm_error.h
+#[cfg(any(unix, target_env = "sgx"))]
 const AESM_SUCCESS: u32 = 0;
 
 // From SDK sgx_quote.h
@@ -288,6 +291,7 @@ impl EinittokenProvider for AesmClient {
     }
 }
 
+#[cfg(any(unix, target_env = "sgx"))]
 trait AesmRequest: protobuf::Message + Into<Request> {
     type Response: protobuf::Message + FromResponse;
 
@@ -296,10 +300,12 @@ trait AesmRequest: protobuf::Message + Into<Request> {
 }
 
 // This could be replaced with TryFrom when stable.
+#[cfg(any(unix, target_env = "sgx"))]
 trait FromResponse: Sized {
     fn from_response(res: ProtobufResult<Response>) -> Result<Self>;
 }
 
+#[cfg(any(unix, target_env = "sgx"))]
 macro_rules! define_aesm_message {
     ($request:ident, $response:ident, $set:ident, $has:ident, $take:ident) => {
         impl AesmRequest for $request {
@@ -338,14 +344,22 @@ macro_rules! define_aesm_message {
     }
 }
 
+#[cfg(any(unix, target_env = "sgx"))]
 define_aesm_message!(Request_GetQuoteRequest,    Response_GetQuoteResponse,    set_getQuoteReq,    has_getQuoteRes,    take_getQuoteRes);
+#[cfg(any(unix, target_env = "sgx"))]
 define_aesm_message!(Request_InitQuoteRequest,   Response_InitQuoteResponse,   set_initQuoteReq,   has_initQuoteRes,   take_initQuoteRes);
+#[cfg(any(unix, target_env = "sgx"))]
 define_aesm_message!(Request_GetLaunchTokenRequest, Response_GetLaunchTokenResponse, set_getLicTokenReq, has_getLicTokenRes, take_getLicTokenRes);
 
+#[cfg(any(unix, target_env = "sgx"))]
 define_aesm_message!(Request_GetQuoteExRequest,  Response_GetQuoteExResponse,  set_getQuoteExReq,  has_getQuoteExRes,  take_getQuoteExRes);
+#[cfg(any(unix, target_env = "sgx"))]
 define_aesm_message!(Request_InitQuoteExRequest, Response_InitQuoteExResponse, set_initQuoteExReq, has_initQuoteExRes, take_initQuoteExRes);
+#[cfg(any(unix, target_env = "sgx"))]
 define_aesm_message!(Request_GetQuoteSizeExRequest, Response_GetQuoteSizeExResponse,  set_getQuoteSizeExReq, has_getQuoteSizeExRes, take_getQuoteSizeExRes);
+#[cfg(any(unix, target_env = "sgx"))]
 define_aesm_message!(Request_GetSupportedAttKeyIDNumRequest, Response_GetSupportedAttKeyIDNumResponse, set_getSupportedAttKeyIDNumReq, has_getSupportedAttKeyIDNumRes, take_getSupportedAttKeyIDNumRes);
+#[cfg(any(unix, target_env = "sgx"))]
 define_aesm_message!(Request_GetSupportedAttKeyIDsRequest,   Response_GetSupportedAttKeyIDsResponse,   set_getSupportedAttKeyIDsReq,   has_getSupportedAttKeyIDsRes,   take_getSupportedAttKeyIDsRes);
 
 

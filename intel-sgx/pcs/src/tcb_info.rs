@@ -542,7 +542,7 @@ mod tests {
         let root_certificate = include_bytes!("../tests/data/root_SGX_CA_der.cert");
         let root_certificates = [&root_certificate[..]];
         let april_28_2025 = Utc.with_ymd_and_hms(2025, 4, 28, 12, 0, 0).unwrap();
-        assert!(tcb_info.verify_ex(&root_certificates, Platform::SGX, 3, &april_28_2025).is_ok());
+        assert_eq!(tcb_info.verify_ex(&root_certificates, Platform::SGX, 3, &april_28_2025), Ok(()));
         assert!(tcb_info.verify_ex(&root_certificates, Platform::SGX, 4, &april_28_2025).is_err());
     }
 
