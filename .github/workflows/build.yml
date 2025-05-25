@@ -150,8 +150,8 @@ jobs:
         rustup target add x86_64-fortanix-unknown-sgx --toolchain nightly
         rustup update
 
-    - name: Cargo test --all --exclude sgxs-loaders --exclude async-usercalls --exclude dcap-artifact-retrieval
-      run: cargo test --locked --all --exclude sgxs-loaders --exclude async-usercalls --exclude dcap-artifact-retrieval
+    - name: Cargo test --all --exclude sgxs-loaders --exclude async-usercalls --exclude dcap-artifact-retrieval --exclude eif-tools
+      run: cargo test --locked --all --exclude sgxs-loaders --exclude async-usercalls --exclude dcap-artifact-retrieval --exclude eif-tools
 
     - name: cargo test -p async-usercalls --target x86_64-fortanix-unknown-sgx --no-run
       run: cargo +nightly test --verbose --locked -p async-usercalls --target x86_64-fortanix-unknown-sgx --no-run
