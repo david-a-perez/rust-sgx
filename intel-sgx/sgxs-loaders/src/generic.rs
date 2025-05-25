@@ -44,6 +44,7 @@ pub(crate) trait EinittokenError {
 #[derive(Debug)]
 pub(crate) struct Mapping<D: EnclaveLoad> {
     pub device: Arc<D>,
+    #[cfg_attr(not(unix), allow(dead_code))]
     pub mapdata: D::MapData,
     pub tcss: Vec<u64>,
     pub base: u64,
